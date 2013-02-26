@@ -14,5 +14,15 @@ Alpha - work in progress
     corespring.Quiz().create
     corespring.Quiz().load
     corespring.Quiz().update
-    
-    
+
+## Developing
+
+### Testing
+
+Note: For testing you'll need a corespring api server that supports the client requests.
+
+    node mock-test.js 
+
+### Publish module
+
+    npm publish
