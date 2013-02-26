@@ -6,11 +6,13 @@ var _ = require('underscore');
 describe('corespring', function () {
 
   var corespring = null;
+  var quizService = null;
 
   before(function () {
     corespring = require(__dirname + "/../index");
     corespring.apiKey = 'demo_token';
     corespring.url = 'http://localhost:9000';
+    quizService = corespring.Quiz();
   });
 
   it('starts', function (done) {
@@ -19,7 +21,7 @@ describe('corespring', function () {
   });
 
   it('loads a quiz', function (done) {
-    corespring.Quiz().load("000000000000000000000001", function (err, quiz) {
+    quizService.get("000000000000000000000001", function (err, quiz) {
       if (err) {
         console.log(err);
         throw "Error: " + err;
@@ -29,12 +31,12 @@ describe('corespring', function () {
     });
   });
 
-  function quizMe(timestamp){
+  function quizMe(timestamp) {
     return {
       metadata: {
         title: "my quiz",
         course: "my course",
-        timestamp : timestamp
+        timestamp: timestamp
       },
       questions: [
         {
@@ -55,7 +57,7 @@ describe('corespring', function () {
 
     var quiz = quizMe(new Date().getTime().toString());
 
-    corespring.Quiz().create(quiz, function (err, savedQuiz) {
+    quizService.create(quiz, function (err, savedQuiz) {
 
       if (err) {
         console.log(err);
@@ -68,29 +70,29 @@ describe('corespring', function () {
     });
   });
 
-  function handle(fn){
-    return function(err, data){
-      if(err){
+  function handle(fn) {
+    return function (err, data) {
+      if (err) {
         console.log("Error: " + err);
         throw err;
       }
       fn(data);
     };
   }
-  
-  it('deletes a quiz', function(done){
-     var quiz = quizMe(new Date().getTime().toString());
-     corespring.Quiz().create(quiz, handle(function(savedQuiz){
-       console.log("Newly saved quiz: %j", savedQuiz);
-        corespring.Quiz().deleteQuiz(savedQuiz.id, handle(function(response){
-          assert(response.statusCode === 200);
-          done();
-        }));
-     }));
+
+  it('deletes a quiz', function (done) {
+    var quiz = quizMe(new Date().getTime().toString());
+    quizService.create(quiz, handle(function (savedQuiz) {
+      console.log("Newly saved quiz: %j", savedQuiz);
+      corespring.Quiz().deleteQuiz(savedQuiz.id, handle(function (response) {
+        assert(response.statusCode === 200);
+        done();
+      }));
+    }));
   });
 
-  it('lists quizzes', function(done){
-    corespring.Quiz().list(handle(function(quizzes){
+  it('lists quizzes', function (done) {
+    quizService.list(handle(function (quizzes) {
       console.log("\n");
       console.log("%j", quizzes);
       assert(quizzes !== null);
@@ -98,7 +100,19 @@ describe('corespring', function () {
     }));
   });
 
-
+  it('updates quizzes', function (done) {
+    var quiz = quizMe(new Date().getTime().toString());
+    quizService.create(quiz, handle(function (savedQuiz) {
+      console.log("old timestamp: " + savedQuiz.metadata.timestamp);
+      savedQuiz.metadata.timestamp = new Date().getTime().toString();
+      console.log("new timestamp: " + savedQuiz.metadata.timestamp);
+      quizService.update(savedQuiz, handle(function (updatedQuiz) {
+        assert(updatedQuiz !== null);
+        assert(updatedQuiz.metadata.timestamp == savedQuiz.metadata.timestamp);
+        done();
+      }));
+    }));
+  });
 });
 
 
