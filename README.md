@@ -17,9 +17,13 @@ Alpha - work in progress
 
 ## Developing
 
+    # You'll need the quiz-api-integration branch from corespring
+    git clone git@github.com:corespring/corespring-api.git
+    git checkout -b quiz-api-integration origin/quiz-api-integration
+
 ### Testing
 
-Note: For testing you'll need a corespring api server that supports the client requests.
+Note: For testing you'll need to run the corespring api server that supports the client requests.
 
     node mock-test.js 
 
