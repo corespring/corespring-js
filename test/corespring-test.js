@@ -45,7 +45,12 @@ describe('corespring', function () {
       ],
       participants: [
         {
-          itemSessions: ["50aa12143004e43e523374e8"],
+          answers: [
+            {
+              itemId: "50083ba9e4b071cb5ef79101",
+              sessionId: "50aa12143004e43e523374e8"
+            }
+          ],
           externalUid: "hello",
           metadata: {studentName: "Joe Schmidt"}
         }
@@ -111,6 +116,26 @@ describe('corespring', function () {
         assert(updatedQuiz.metadata.timestamp == savedQuiz.metadata.timestamp);
         done();
       }));
+    }));
+  });
+
+  it('adds answer', function (done) {
+    var quiz = quizMe(new Date().getTime().toString());
+    assert(quiz.participants.length == 1);
+    quizService.create(quiz, handle(function (savedQuiz) {
+      console.log("add answer - quiz: ");
+      console.log(savedQuiz);
+      debugger;
+      assert(savedQuiz.participants.length == 1);
+      quizService.addAnswer(savedQuiz.id, "50083ba9e4b071cb5ef79102", "hello", "50083ba9e4b071cb5ef79101", function (err, update) {
+        if (err) {
+          throw err;
+        }
+        debugger;
+        assert(update.participants.length == 1);
+        assert(update.participants[0].answers.length == 2);
+        done();
+      });
     }));
   });
 });
