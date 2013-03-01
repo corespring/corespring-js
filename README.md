@@ -9,11 +9,24 @@ Alpha - work in progress
     var corespring = require('corespring');
     corespring.apiKey = .....;
     corespring.url = "https://corespring.org";
+
+    //List quizzes for this org
     corespring.Quiz().list
-    corespring.Quiz().deleteQuiz
-    corespring.Quiz().create
-    corespring.Quiz().load
-    corespring.Quiz().update
+
+    //delete quiz
+    corespring.Quiz().deleteQuiz(quizId,callback)
+
+    //create a quiz
+    corespring.Quiz().create(quiz,callback)
+
+    //get a quiz
+    corespring.Quiz().load(quizId,callback)
+
+    //update a quiz
+    corespring.Quiz().update(quizId,quiz,callback)
+
+    //add an answer to a quiz for a participant (identified by the uid)
+    corespring.Quiz().addAnswer(quizId,itemId,externalUid,sessionId,callback)
 
 ## Developing
 
