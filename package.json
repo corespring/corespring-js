@@ -1,6 +1,6 @@
 {
   "name": "corespring",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "[Pre-Alpha] library for interacting with the corespring API",
   "author": "corespring <ed.eustace@corespring.org>",
   "keywords": ["corespring", "api", "javascript", "library"],
