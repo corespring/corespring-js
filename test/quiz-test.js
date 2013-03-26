@@ -22,6 +22,7 @@ describe('corespring', function () {
 
   it('loads a quiz', function (done) {
     quizService.get("000000000000000000000001", function (err, quiz) {
+      debugger;
       if (err) {
         console.log(err);
         throw "Error: " + err;
@@ -30,6 +31,7 @@ describe('corespring', function () {
       done();
     });
   });
+
 
   function quizMe(timestamp) {
     return {
@@ -125,19 +127,18 @@ describe('corespring', function () {
     quizService.create(quiz, handle(function (savedQuiz) {
       console.log("add answer - quiz: ");
       console.log(savedQuiz);
-      debugger;
       assert(savedQuiz.participants.length == 1);
       quizService.addAnswer(savedQuiz.id, "50083ba9e4b071cb5ef79102", "hello", "50083ba9e4b071cb5ef79101", function (err, update) {
         if (err) {
           throw err;
         }
-        debugger;
         assert(update.participants.length == 1);
         assert(update.participants[0].answers.length == 2);
         done();
       });
     }));
   });
+
 });
 
 
