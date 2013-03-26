@@ -15,13 +15,14 @@ describe('item-session', function () {
     quizService = corespring.Quiz();
   });
 
-  it('loads multiple', function(done){
+  it('loads multiple', function (done) {
 
     var ids = ["51116cbb87eb055332a2f8e5"];
-    corespring.ItemSession().getMultiple(ids, function(err, itemSessions){
-      assert(itemSessions !== null, "item sessions should not be null");
+    corespring.ItemSessionSummary().getMultiple(ids, function (err, summaries) {
+      assert(summaries !== null, "item sessions should not be null");
+      console.log("summaries:", summaries);
       assert(err === null);
-      assert(itemSessions.length === 1);
+      assert(summaries.length === 1);
       done();
     });
   });
