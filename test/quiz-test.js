@@ -121,6 +121,23 @@ describe('corespring', function () {
     }));
   });
 
+  it('adds participant', function (done) {
+    var quiz = quizMe(new Date().getTime().toString());
+    assert(quiz.participants.length == 1);
+    quizService.create(quiz, handle(function (savedQuiz) {
+      console.log("add participant - quiz: ");
+      console.log(savedQuiz);
+      assert(savedQuiz.participants.length == 1);
+      quizService.addParticipants(savedQuiz.id, ["50c9f79db519c8996618447d", "50be107ae4b954fe2326ab72", "50ba1c504eda5d94372233c7"], function (err, update) {
+        if (err) {
+          throw err;
+        }
+        assert(update.participants.length == 4);
+        done();
+      });
+    }));
+  });
+
   it('adds answer', function (done) {
     var quiz = quizMe(new Date().getTime().toString());
     assert(quiz.participants.length == 1);

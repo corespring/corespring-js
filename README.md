@@ -38,7 +38,7 @@ Alpha - work in progress
 
 Note: For testing you'll need to run the corespring api server that supports the client requests.
 
-    node mock-test.js 
+    node mocha-test.js
 
 ### Publish module
 
